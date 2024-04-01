@@ -1,0 +1,106 @@
+server:
+  servlet:
+    context-path: /xtr-aeroport-typological
+  port: 8083
+
+spring:
+  application:
+    name: xtr-aeroport-typological
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false  # Imposta su 'true' in un ambiente di produzione
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/local-postgres
+    #?currentSchema=aeroport
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres123
+
+    hikari:
+      connection-timeout: 30000 # Timeout di attesa per una connessione dal pool
+      minimum-idle: 4 # Numero minimo di connessioni idle nel pool
+      maximum-pool-size: 8 # Numero massimo di connessioni nel pool
+      idle-timeout: 600000 # Tempo massimo (in millisecondi) che una connessione può rimanere inattiva prima di essere chiusa
+      max-lifetime: 1800000 # Tempo massimo di vita di una connessione nel pool
+      pool-name: SpringBatchHikariCP # Nome del pool di connessioni, utile per il monitoraggio
+  #      auto-commit: true # Imposta se le operazioni SQL devono essere eseguite in auto-commit
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    #database-platform: org.hibernate.dialect.PostgreSQLDialect
+    #    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    properties:
+      hibernate:
+        default_schema: aeroport
+        format_sql: true
+  #    generate-ddl: false
+
+
+  h2:
+    console:
+      enabled: false
+
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+ # zipkin:
+#    tracing:
+#      endpoint: http://127.0.0.1:9411/
+#  sleuth:
+
+xtr-aeroport:
+  db:
+    pagination:
+      maxPageSize: 48
+
+# http://127.0.0.1:8080/xtr-aeroport/v3/swagger-ui/index.html
+# http://127.0.0.1:8080/xtr-aeroport/v3/api-docs/swagger-config
+# http://127.0.0.1:8080/xtr-aeroport/v3/api-docs
+springdoc:
+  base: /v3
+  swagger-ui:
+    path: ${springdoc.base}/swagger-ui.html
+    tryItOutEnabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true
+  api-docs:
+    path: ${springdoc.base}/api-docs
+  openapi:
+    dev-url: http://localhost:${server.port}${server.servlet.context-path}
+    prod-url: https://bubume.it${server.servlet.context-path}
+    mail: xxx@xxx.com
+    name: Alexandru Andrei Dabija
+    url: https://bubume.it
+
+logging:
+  pattern:
+    dateformat: ${LOG_DATE_FORMAT:yyyy-MM-ddTHH:mm:ss}
+#    level: ${LOG_LEVEL:}
+#    console:  ${LOG_FORMAT:${spring.application.name} %clr(%5p) %clr([%X{traceId}/%X{spanId}]){yellow}}
+  file:
+    path: ${LOGGING_PATH:./var/log/spring}
+    name: ${LOGGING_NAME:${logging.file.path}/${spring.application.name}.log}
+  level:
+#    org.springframework.web.servlet: TRACE
+    org.springframework.web: ${LOGGING_LEVEL:INFO}
+  logback:
+    rollingpolicy:
+      max-history: ${LOGGING_HISTORY:5}
+      max-file-size: ${LOGGING_MAX_SIZE:10MB}
+
