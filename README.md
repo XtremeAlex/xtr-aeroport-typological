@@ -1,6 +1,8 @@
 <a name="readme-top"></a>
 
 <div align="center">
+  <img src="_assets/images/banner-dark.png" alt="Aeroport Typological" width="100%">
+  <br /><br />
   <img src="_assets/images/logo.png" width="300" alt="Logo">
 </div>
 
