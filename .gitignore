@@ -27,3 +27,6 @@ replay_pid*
 # IDE (contiene config con URL repo interni - non committare)
 .idea/
 *.iml
+
+target/
+var/
