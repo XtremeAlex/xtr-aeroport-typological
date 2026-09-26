@@ -6,7 +6,7 @@
   <img src="_assets/images/logo.png" width="300" alt="Logo">
 </div>
 
-# xtr-aeroport-typological
+# xtr-aeroport-typology
 
 Microservizio dedicato all'accesso alle informazioni tipologiche sugli aeroporti e le rotte aeree a livello globale.
 
@@ -36,7 +36,7 @@ Fa parte della suite `xtr-aeroport-*`:
 |---|---|
 | [`xtr-aeroport-ms`](https://github.com/XtremeAlex/xtr-aeroport-ms) | Microservizio di ricerca aeroporti |
 | [`xtr-aeroport-batch`](https://github.com/XtremeAlex/xtr-aeroport-batch) | Import massivo dati |
-| [`xtr-aeroport-typological`](https://github.com/XtremeAlex/xtr-aeroport-typological) | Servizio dati tipologici (questo modulo) |
+| [`xtr-aeroport-typology`](https://github.com/XtremeAlex/xtr-aeroport-typology) | Servizio dati tipologici (questo modulo) |
 | [`xtr-aeroport-common-lib`](https://github.com/XtremeAlex/xtr-aeroport-common-lib) | Libreria condivisa |
 | [`xtr-aeroport-web-java`](https://github.com/XtremeAlex/xtr-aeroport-web-java) | Frontend web |
 
@@ -70,8 +70,8 @@ Il progetto usa Maven per la gestione delle dipendenze e la compilazione. È svi
 
 1. Clona il repository:
    ```bash
-   git clone https://github.com/XtremeAlex/xtr-aeroport-typological.git
-   cd xtr-aeroport-typological
+   git clone https://github.com/XtremeAlex/xtr-aeroport-typology.git
+   cd xtr-aeroport-typology
    ```
 
 2. Compila il progetto con Maven:
@@ -212,7 +212,7 @@ docker run -p 8080:8080 artifactory.io/k8s-test/namespace/com.xtremealex/aeropor
 - [x] Sostituire ModelMapper con MapStruct
 - [x] Compilare nativamente con GraalVM
 
-Consulta le [open issues](https://github.com/XtremeAlex/xtr-aeroport-typological/issues) per la lista completa di funzionalità proposte e bug noti.
+Consulta le [open issues](https://github.com/XtremeAlex/xtr-aeroport-typology/issues) per la lista completa di funzionalità proposte e bug noti.
 
 ## Come contribuire
 

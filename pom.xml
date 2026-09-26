@@ -13,7 +13,7 @@
     <groupId>com.xtremealex</groupId>
     <artifactId>typological</artifactId>
     <version>1.2.0</version>
-    <name>xtr-aeroport-typological</name>
+    <name>xtr-aeroport-typology</name>
     <description>Aeroport MS Graal project for Spring Boot</description>
 
     <properties>
