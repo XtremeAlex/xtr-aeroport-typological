@@ -1,3 +1,7 @@
+> Stato: deprecato dal 29/09/2026. Questo progetto non è più mantenuto.
+> È confluito in `xtr-aeroport-api-spring`, l'API unica della suite (non ancora pubblicata su GitHub), insieme a `xtr-aeroport-ms`.
+> Il codice resta qui per chi vuole consultarlo, ma non riceverà più correzioni, aggiornamenti di sicurezza o nuove release.
+
 <a name="readme-top"></a>
 
 <div align="center">
@@ -8,50 +12,54 @@
 
 # xtr-aeroport-typology
 
-Microservizio dedicato all'accesso alle informazioni tipologiche sugli aeroporti e le rotte aeree a livello globale.
+Il microservizio che dava accesso ai dati tipologici su aeroporti e rotte aeree di tutto il mondo.
 
 <details>
   <summary>Sommario</summary>
   <ol>
-    <li><a href="#info-sul-progetto">Info sul progetto</a></li>
+    <li><a href="#perché-esiste">Perché esiste</a></li>
+    <li><a href="#la-suite">La suite</a></li>
     <li><a href="#stack-tecnologico">Stack tecnologico</a></li>
-    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#per-iniziare">Per iniziare</a></li>
+    <li><a href="#play--test">Play &amp; Test</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#come-contribuire">Come contribuire</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#licenza">Licenza</a></li>
     <li><a href="#contatti">Contatti</a></li>
     <li><a href="#ringraziamenti">Ringraziamenti</a></li>
   </ol>
 </details>
 
-## Info sul progetto
+## Perché esiste
 
-Questo progetto nasce come piattaforma sperimentale personale per mettere alla prova tecnologie e framework moderni in un contesto realistico. L'obiettivo è fornire un set di API robuste per accedere a informazioni dettagliate sugli aeroporti e le rotte aeree, con particolare attenzione alla compilazione nativa GraalVM.
+È un progetto personale nato per provare tecnologie e framework recenti su un caso concreto. L'obiettivo era un set di API affidabili per consultare nel dettaglio aeroporti e rotte aeree, con un occhio di riguardo alla compilazione nativa con GraalVM.
 
-È uno dei moduli di una serie più ampia, pensata per essere condivisa e arricchita con il contributo della community.
+Perché l'ho deprecato: `xtr-aeroport-ms` chiamava questo servizio via Feign solo per avere le tipologie. Erano due JVM, una chiamata di rete in più e un punto in più in cui le cose potevano rompersi. Su un Raspberry Pi è un costo che non ha senso. Così i due servizi sono diventati uno, `xtr-aeroport-api-spring`.
 
-Fa parte della suite `xtr-aeroport-*`:
+## La suite
 
-| Modulo | Ruolo |
-|---|---|
-| [`xtr-aeroport-ms`](https://github.com/XtremeAlex/xtr-aeroport-ms) | Microservizio di ricerca aeroporti |
-| [`xtr-aeroport-batch`](https://github.com/XtremeAlex/xtr-aeroport-batch) | Import massivo dati |
-| [`xtr-aeroport-typology`](https://github.com/XtremeAlex/xtr-aeroport-typology) | Servizio dati tipologici (questo modulo) |
-| [`xtr-aeroport-common-lib`](https://github.com/XtremeAlex/xtr-aeroport-common-lib) | Libreria condivisa |
-| [`xtr-aeroport-web-java`](https://github.com/XtremeAlex/xtr-aeroport-web-java) | Frontend web |
+| Modulo | A cosa serve | Stato |
+|---|---|---|
+| `xtr-aeroport-api-spring` | API unica per aeroporti, tipologie, paesi e messaggi EDIFACT (non ancora pubblicata su GitHub) | Attivo |
+| `xtr-aeroport-api-quarkus` | Porting della stessa API su Quarkus (non ancora pubblicato su GitHub) | Sperimentale |
+| `xtr-aeroport-edifact-spring-web` | Console web EDIFACT, ha preso il posto di `xtr-aeroport-web-java` (non ancora pubblicata su GitHub) | Attivo |
+| [`xtr-aeroport-batch`](https://github.com/XtremeAlex/xtr-aeroport-batch) | Import massivo dei dati | Attivo, offline |
+| [`xtr-aeroport-common-lib`](https://github.com/XtremeAlex/xtr-aeroport-common-lib) | Libreria condivisa | Legacy |
+| [`xtr-aeroport-ms`](https://github.com/XtremeAlex/xtr-aeroport-ms) | Microservizio di ricerca aeroporti | Deprecato |
+| [`xtr-aeroport-typology`](https://github.com/XtremeAlex/xtr-aeroport-typology) | Servizio dati tipologici (questo modulo) | Deprecato |
+| [`xtr-aeroport-web-java`](https://github.com/XtremeAlex/xtr-aeroport-web-java) | Frontend web | Deprecato |
 
 ## Stack tecnologico
 
 - Java 17 (GraalVM)
 - Spring Boot 3.2.1
 - Maven
-- Linux, macOS, Windows
+- Gira su Linux, macOS e Windows
 
-## Getting Started
+## Per iniziare
+Si compila con Maven, su Spring Boot 3 e Java 17, e si avvia senza problemi in locale.
 
-Il progetto usa Maven per la gestione delle dipendenze e la compilazione. È sviluppato con Spring Boot 3 e Java 17 e può essere avviato e testato in locale.
-
-### Prerequisiti
+### Cosa serve
 
 - Git (>= 2.43)
 - Java OJDK (GraalVM versione 17)
@@ -74,7 +82,7 @@ Il progetto usa Maven per la gestione delle dipendenze e la compilazione. È svi
    cd xtr-aeroport-typology
    ```
 
-2. Compila il progetto con Maven:
+2. Compila con Maven:
    ```bash
    mvn clean package -DskipTests
    ```
@@ -88,9 +96,9 @@ Il progetto usa Maven per la gestione delle dipendenze e la compilazione. È svi
 
 ### Build nativa (GraalVM)
 
-**1. Generare i metadati per la native-image**
+**1. Generare i metadati per la native image**
 
-Per risolvere i problemi di reflection va lanciato, prima di qualsiasi compilazione nativa, il `native-image-agent` che genera i metadati eseguendo il jar sulla JVM:
+Prima di qualsiasi compilazione nativa bisogna lanciare il `native-image-agent`, altrimenti la reflection dà problemi. L'agent esegue il jar sulla JVM e genera i metadati necessari:
 
 ```bash
 java -agentlib:native-image-agent=config-output-dir=./src/main/resources/META-INF/native-image -jar ./target/*.jar com.xtremealex.aeroport.AeroportApplication
@@ -98,7 +106,7 @@ java -agentlib:native-image-agent=config-output-dir=./src/main/resources/META-IN
 
 <img src="_assets/images/run-agentlib.png" alt="native-image-agent" />
 
-Il plugin genera diversi file `.json`, ognuno con informazioni specifiche sull'aspetto del codice da compilare. Se si crea una cartella sotto `resources/META-INF/native-image` non serve aggiungere i `buildArgs`: di default vengono cercati lì. In alternativa si possono dichiarare esplicitamente:
+L'agent produce diversi file `.json`, ognuno dedicato a un aspetto del codice da compilare. Se stanno in `resources/META-INF/native-image` non serve aggiungere `buildArgs`, perché è lì che vengono cercati di default. Volendo, si possono comunque dichiarare a mano:
 
 ```
 <buildArg>-H:ReflectionConfigurationFiles=configs/native-image/reflect-config.json</buildArg>
@@ -108,20 +116,20 @@ Il plugin genera diversi file `.json`, ognuno con informazioni specifiche sull'a
 <buildArg>-H:SerializationConfigurationFiles=configs/native-image/serialization-config.json</buildArg>
 ```
 
-**2. Opzioni buildArgs principali (nel pom)**
+**2. Le opzioni principali in `buildArgs` (nel pom)**
 
-Ogni opzione ha uno scopo specifico per ottimizzare e configurare la compilazione:
+Cosa fa ciascuna:
 
-- `--verbose` — abilita messaggi dettagliati durante la compilazione (utile per il debug).
-- `-Dspring.aot.enabled=true` — abilita l'ottimizzazione Ahead-of-Time di Spring (avvio più veloce, meno memoria).
-- `-H:TraceClassInitialization=true` — traccia l'inizializzazione delle classi per identificare quelle problematiche.
-- `-H:+ReportExceptionStackTraces` — stampa lo stack trace delle eccezioni in caso di errori di compilazione.
-- `-H:Name=aeroport` — imposta il nome del file eseguibile finale.
-- `-H:DashboardDump=aeroport-dump` / `-H:+DashboardAll` — dati per il dashboard di GraalVM.
-- `--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback,...` — classi/pacchetti inizializzati a build time.
-- `--initialize-at-run-time=framework` — framework personalizzati inizializzati a runtime.
-- `-Dspring.graal.remove-unused-autoconfig=true` — rimuove le autoconfigurazioni inutilizzate per ridurre l'immagine.
-- `-Dspring.graal.remove-yaml-support=true` — disabilita il supporto YAML per ridurre ulteriormente l'immagine.
+- `--verbose`: messaggi dettagliati durante la compilazione, utile per il debug.
+- `-Dspring.aot.enabled=true`: attiva l'ottimizzazione Ahead-of-Time di Spring, per un avvio più rapido e meno memoria.
+- `-H:TraceClassInitialization=true`: traccia l'inizializzazione delle classi, per scovare quelle che creano problemi.
+- `-H:+ReportExceptionStackTraces`: stampa lo stack trace delle eccezioni quando la compilazione fallisce.
+- `-H:Name=aeroport`: il nome dell'eseguibile finale.
+- `-H:DashboardDump=aeroport-dump` / `-H:+DashboardAll`: dati per il dashboard di GraalVM.
+- `--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback,...`: classi e pacchetti da inizializzare a build time.
+- `--initialize-at-run-time=framework`: framework personalizzati da inizializzare a runtime.
+- `-Dspring.graal.remove-unused-autoconfig=true`: toglie le autoconfigurazioni non usate, per un'immagine più piccola.
+- `-Dspring.graal.remove-yaml-support=true`: toglie il supporto YAML, per ridurre ancora l'immagine.
 
 **3. Compilare l'immagine nativa**
 
@@ -131,7 +139,7 @@ mvn package -DskipTests -Pnative
 
 <img src="_assets/images/native-mvn-build.png" alt="Build nativa" />
 
-Il binario viene prodotto in `./target/aeroport` (su Windows `aeroport.exe`).
+Il binario esce in `./target/aeroport` (su Windows `aeroport.exe`).
 
 <img src="_assets/images/native-macos-result-build.png" alt="Risultato build" />
 
@@ -143,17 +151,17 @@ Il binario viene prodotto in `./target/aeroport` (su Windows `aeroport.exe`).
 
 <img src="_assets/images/native-run-app.png" alt="Avvio applicazione nativa" />
 
-I tempi di avvio si dimezzano (`4.22s`) pur con l'init che importa i valori JSON nell'H2. Disabilitando l'init la differenza è ancora più marcata, con benefici assoluti in ambiente cloud:
+In nativo il tempo di avvio si dimezza (`4.22s`), anche se all'avvio c'è l'init che importa i dati JSON in H2. Togliendo l'init la differenza diventa ancora più netta, e in cloud si sente:
 
-- JVM no-init: `1.507s`
+- JVM senza init: `1.507s`
 
   <img src="_assets/images/run-no-init-by-graal-jdk17.png" alt="JVM no-init" />
 
-- Nativo no-init: `0.151s` — si avvia circa 10 volte più velocemente usando meno risorse.
+- Nativo senza init: `0.151s`, circa 10 volte più veloce e con meno risorse.
 
   <img src="_assets/images/native-run-no-init-by-graal-jdk17.png" alt="Nativo no-init" />
 
-**Recap dei comandi**
+**Tutti i comandi in fila**
 
 ```bash
 mvn clean
@@ -207,40 +215,35 @@ docker run -p 8080:8080 artifactory.io/k8s-test/namespace/com.xtremealex/aeropor
 
 ## Roadmap
 
-- [x] Creare Verticale SearchAirport
-- [x] Creare Verticale SearchAirportType
-- [x] Sostituire ModelMapper con MapStruct
-- [x] Compilare nativamente con GraalVM
+Chiusa con la deprecazione. Questo è quello che è stato fatto:
 
-Consulta le [open issues](https://github.com/XtremeAlex/xtr-aeroport-typology/issues) per la lista completa di funzionalità proposte e bug noti.
+- [x] Verticale SearchAirport
+- [x] Verticale SearchAirportType
+- [x] ModelMapper sostituito con MapStruct
+- [x] Compilazione nativa con GraalVM
+
+Le vecchie issue restano consultabili [qui](https://github.com/XtremeAlex/xtr-aeroport-typology/issues).
 
 ## Come contribuire
 
-I contributi sono ciò che rende la community open source un posto straordinario per imparare e creare. Ogni contributo è molto apprezzato.
+Il progetto è deprecato, quindi aprire Pull Request qui ha poco senso. Se vuoi contribuire alla suite, il posto giusto è `xtr-aeroport-api-spring`. Per chi vuole comunque partire da qui con un fork, il giro è quello classico:
 
-1. Fai un fork del progetto
-2. Crea il tuo feature branch (`git checkout -b feature/nome-feature`)
-3. Fai commit delle modifiche (`git commit -m "Aggiunge nome-feature"`)
-4. Fai push sul branch (`git push origin feature/nome-feature`)
-5. Apri una Pull Request
+1. fai un fork del progetto;
+2. crea un branch per la tua modifica (`git checkout -b feature/nome-feature`);
+3. fai commit (`git commit -m "Aggiunge nome-feature"`);
+4. fai push del branch (`git push origin feature/nome-feature`).
 
-Se hai un suggerimento, apri pure una issue con il tag appropriato. E non dimenticare di mettere una stella al progetto!
-
-## License
-
-Distribuito con doppia licenza: **GNU AGPL-3.0** (vedi [`LICENSE`](LICENSE)) per uso open source, e **licenza commerciale** per uso in prodotti proprietari (vedi [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md)).
+## Licenza
+Doppia licenza: **GNU AGPL-3.0** (vedi [`LICENSE`](LICENSE)) per l'uso open source, e **licenza commerciale** per l'uso dentro prodotti proprietari (vedi [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md)).
 
 ## Contatti
 
-Andrei Alexandru Dabija — [LinkedIn](https://www.linkedin.com/in/andrei-alexandru-dabija/) — [github.com/XtremeAlex](https://github.com/XtremeAlex)
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Andrei Alexandru Dabija · [LinkedIn](https://www.linkedin.com/in/andrei-alexandru-dabija/) · [github.com/XtremeAlex](https://github.com/XtremeAlex)
 
 ## Ringraziamenti
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [GraalVM](https://www.graalvm.org/) per la compilazione nativa
-- [Best-README-Template](https://github.com/othneildrew/Best-README-Template) come ispirazione per la struttura
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template), da cui ho preso spunto per la struttura
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
